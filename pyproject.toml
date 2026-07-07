@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pipecat-plugins-munsit"
+version = "0.2.0"
+description = "Pipecat plugin for Munsit Arabic speech-to-text and text-to-speech"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["pipecat", "stt", "tts", "arabic", "munsit", "faseeh", "voice", "ai"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    # WebsocketSTTService and the settings machinery this plugin builds on
+    # first shipped in pipecat-ai 1.x.
+    "pipecat-ai>=1.5.0",
+    "aiohttp>=3.11.0,<4",
+    "websockets>=13.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.25.0",
+]
+examples = [
+    "pipecat-ai[daily,openai,silero]",
+    "python-dotenv",
+    "loguru",
+]
+
+[project.urls]
+Homepage = "https://github.com/CNTXTFZCO0/pipecat-plugins-munsit"
+Repository = "https://github.com/CNTXTFZCO0/pipecat-plugins-munsit"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

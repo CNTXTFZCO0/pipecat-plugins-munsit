@@ -1,0 +1,35 @@
+name: Publish to PyPI
+
+on:
+  push:
+    tags:
+      - 'v*'  # Triggers on version tags like v0.1.0, v1.0.0, etc.
+
+# Trusted Publishing (OIDC): no PYPI_API_TOKEN secret. The PyPI project must
+# register this repo + workflow as a trusted publisher (Settings -> Publishing).
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write        # REQUIRED for OIDC trusted publishing
+      contents: read
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Build package
+      run: |
+        python -m pip install --upgrade pip build twine
+        python -m build
+        python -m twine check dist/*
+
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      # No password: authenticates via the repo's OIDC identity against the
+      # trusted publisher registered on the PyPI project.
